@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
-from dotenv import load_dotenv
 import os
-from pathlib import Path
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+from utils.env.load_env import load_env_vars
 
-def establish_connection(host, port, admin_user, admin_password):
+
+def establish_connection(host, port, admin_user, admin_password, database):
     conn = psycopg2.connect(
         host=host,
         port=port,
         user=admin_user,
         password=admin_password,
-        database='postgres'
+        database=database
     )
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     return conn
@@ -77,7 +77,8 @@ def create_and_setup(db_name, db_user, db_password,
         host,
         port,
         admin_user,
-        admin_password
+        admin_password,
+        database='postgres'
     )
     cursor = conn.cursor()
 
@@ -90,13 +91,14 @@ def create_and_setup(db_name, db_user, db_password,
     conn.close()
 
 
-def grant_public_schema_access(db_user, host, port,
+def grant_public_schema_access(db_name, db_user, host, port,
                                admin_user, admin_password):
     conn = establish_connection(
         host,
         port,
         admin_user,
-        admin_password
+        admin_password,
+        database=db_name
     )
     cursor = conn.cursor()
 
@@ -110,14 +112,24 @@ def grant_public_schema_access(db_user, host, port,
     conn.close()
 
 
-def create_and_setup_database(db_name, db_user, db_password, admin_password,
-                              admin_user='postgres', host='localhost', port=5433):
+def create_and_setup_database():
+    host = get_from_env("DB_HOST")
+    port = int(get_from_env("DB_PORT"))
+
+    db_name = get_from_env("DB_NAME")
+
+    db_user = get_from_env("DB_USER")
+    db_password = get_from_env("DB_PASSWORD")
+
+    admin_user = get_from_env("DB_ADMIN_USER")
+    admin_password = get_from_env("DB_ADMIN_PASSWORD")
+
     try:
         create_and_setup(db_name, db_user, db_password,
                          host, port,
                          admin_user, admin_password)
 
-        grant_public_schema_access(db_user, host, port,
+        grant_public_schema_access(db_name, db_user, host, port,
                                    admin_user, admin_password)
 
         print(f"Success! Database '{db_name}' and user '{db_user}' are ready.")
@@ -127,27 +139,21 @@ def create_and_setup_database(db_name, db_user, db_password, admin_password,
         exit(1)
 
 
-def get_password(key):
-    env_path = Path(__file__).parent.parent / '.env'
-    load_dotenv(dotenv_path=env_path)
-    password = os.getenv(key)
-
-    if not password:
-        print(f"No password found by key {key}")
+def get_from_env(key):
+    value = os.getenv(key)
+    if not value:
+        print(f"No value found by key {key}")
         exit(1)
-    return password
+    return value
 
 
 def main():
+    load_env_vars()
+
     try:
-        create_and_setup_database(
-            db_name='travelmap',
-            db_user='travelmap_user',
-            db_password=get_password("DB_PASSWORD"),
-            admin_password=get_password("DB_ADMIN_PASSWORD")
-        )
+        create_and_setup_database()
     except KeyboardInterrupt:
-        print("\n\nOperation cancelled by user")
+        print("Operation cancelled by user")
         exit(1)
 
 
