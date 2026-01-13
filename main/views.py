@@ -13,3 +13,9 @@ def event(request, event_id):
     template = loader.get_template("main/event.html")
     context = {"event_id": event_id}
     return HttpResponse(template.render(context, request))
+
+
+def about(request):
+    template = loader.get_template("main/about.html")
+    context = {}
+    return HttpResponse(template.render(context, request))

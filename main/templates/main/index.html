@@ -1,1 +1,38 @@
-<h1> Hello from travelmap app</h1>
+{% extends 'base.html' %}
+
+{% block title %}Главная страница | Travelmap{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Привет, мир!</h1>
+        <p class="col-md-8 fs-4">
+            Travelmap Django project powered by Bootstrap 5.
+        </p>
+        <a class="btn btn-primary btn-lg" href="#" role="button">
+            Начать работу
+        </a>
+    </div>
+</div>
+
+<div class="row align-items-md-stretch">
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-5 text-bg-dark rounded-3">
+            <h2>Карточка 1</h2>
+            <p>Пример карточки с темным фоном.</p>
+            <button class="btn btn-outline-light" type="button">
+                Пример кнопки
+            </button>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-5 bg-light border rounded-3">
+            <h2>Карточка 2</h2>
+            <p>Пример карточки со светлым фоном.</p>
+            <button class="btn btn-outline-secondary" type="button">
+                Другая кнопка
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
