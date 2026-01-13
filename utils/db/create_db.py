@@ -5,7 +5,7 @@ import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
-from utils.env.load_env import load_env_vars
+from utils.env_utils.load_env import load_env_vars
 
 
 def establish_connection(host, port, admin_user, admin_password, database):

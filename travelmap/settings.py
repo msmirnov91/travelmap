@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 
-from utils.env.load_env import load_env_vars
+from utils.env_utils.load_env import load_env_vars
 
 
 load_env_vars()

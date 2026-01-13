@@ -17,7 +17,7 @@ This project is guaranteed to work with following configuration:
 
 - Install required packages (Python, Pip, PostgreSQL etc.)
 - Clone this repo
-- Launch venv using `utils/env/activate_venv.*`
+- Launch venv using `utils/env_utils/activate_venv.*`
 - Apply requirements (`pip3 install -r requirements.txt`)
 - Create file named `.env` in the project root (see example below)
 - Create DB and user using `utils/db/create_db.py`
