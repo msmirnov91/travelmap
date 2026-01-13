@@ -29,7 +29,7 @@ This project is guaranteed to work with following configuration:
 - Make sure venv is active
 - Run debug server (`python manage.py runserver <optional:PORT>`), default port is 8000
 - Wait for success message in terminal
-- Go to http://127.0.0.1:<PORT>/main/ and see hello world page
+- Go to http://127.0.0.1:[PORT]/main/ and see hello world page
 
 ## Example of .env file
 
