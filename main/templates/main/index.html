@@ -17,22 +17,38 @@
 
 <div class="row align-items-md-stretch">
     <div class="col-md-6 mb-4">
-        <div class="h-100 p-5 text-bg-dark rounded-3">
-            <h2>Карточка 1</h2>
-            <p>Пример карточки с темным фоном.</p>
-            <button class="btn btn-outline-light" type="button">
-                Пример кнопки
-            </button>
-        </div>
+        {% if events %}
+            {% for event in events %}
+                <div class="h-100 p-5 text-bg-dark rounded-3">
+                    <h2>{{ event.title }}</h2>
+                    <p>{{ event.description }}</p>
+                    <button class="btn btn-outline-light" type="button">
+                        Перейти
+                    </button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <h2>Пока поездок нет</h2>
+            </div>
+        {% endif %}
     </div>
     <div class="col-md-6 mb-4">
-        <div class="h-100 p-5 bg-light border rounded-3">
-            <h2>Карточка 2</h2>
-            <p>Пример карточки со светлым фоном.</p>
-            <button class="btn btn-outline-secondary" type="button">
-                Другая кнопка
-            </button>
-        </div>
+        {% if locations %}
+            {% for location in locations %}
+                <div class="h-100 p-5 text-bg-dark rounded-3">
+                    <h2>{{ location.title }}</h2>
+                    <p>{{ location.description }}</p>
+                    <button class="btn btn-outline-light" type="button">
+                        Перейти
+                    </button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="h-100 p-5 text-bg-dark rounded-3">
+                <h2>Мест пока нет</h2>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

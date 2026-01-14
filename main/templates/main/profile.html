@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль | Travelmap{% endblock %}
+
+{% block content %}
+
+{% if profile %}
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Имя: {{ profile.user.first_name }}</h1>
+            <h3 class="display-5">Логин: {{ profile.user.username }}</h3>
+        </div>
+    </div>
+{% else %}
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Профиль не найден</h1>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

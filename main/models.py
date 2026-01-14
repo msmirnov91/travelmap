@@ -25,6 +25,7 @@ class Location(models.Model):
     url = models.CharField("information link", max_length=100)
     lat = models.FloatField("latitude")
     lon = models.FloatField("longitude")
+    # TODO: add created_at, updated_at
 
 
 class Event(models.Model):
@@ -32,4 +33,4 @@ class Event(models.Model):
     description = models.CharField("event description", max_length=250)
     date = models.DateTimeField("event date")
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    # TODO: add participants, photos and videos
+    # TODO: add participants, photos and videos, created_at, updated_at
