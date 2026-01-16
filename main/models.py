@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
 
 
 class Profile(models.Model):
@@ -27,6 +28,9 @@ class Location(models.Model):
     lon = models.FloatField("longitude")
     # TODO: add created_at, updated_at
 
+    def get_absolute_url(self):
+        return reverse('location', kwargs={'pk': self.pk})
+
 
 class Event(models.Model):
     title = models.CharField("event title", max_length=50)
@@ -34,3 +38,6 @@ class Event(models.Model):
     date = models.DateTimeField("event date")
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     # TODO: add participants, photos and videos, created_at, updated_at
+
+    def get_absolute_url(self):
+        return reverse('event', kwargs={'pk': self.pk})

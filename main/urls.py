@@ -8,7 +8,7 @@ urlpatterns = [
     path("profile/<int:profile_id>/", views.profile, name="profile"),
     path("about/", views.about, name="about"),
     path(
-        "location/<int:location_id>/",
+        "location/<int:pk>/",
         views.LocationDetailView.as_view(),
         name="location"
     ),
@@ -18,12 +18,12 @@ urlpatterns = [
         name="location-create"
     ),
     path(
-        "location/<int:location_id>/update/",
+        "location/<int:pk>/update/",
         views.LocationUpdateView.as_view(),
         name="location-update"
     ),
     path(
-        "event/<int:event_id>/",
+        "event/<int:pk>/",
         views.EventDetailView.as_view(),
         name="event"
     ),
@@ -33,7 +33,7 @@ urlpatterns = [
         name="event-create"
     ),
     path(
-        "event/<int:event_id>/update/",
+        "event/<int:pk>/update/",
         views.EventUpdateView.as_view(),
         name="event-update"
     ),

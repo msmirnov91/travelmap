@@ -1,6 +1,7 @@
 from django.views.generic import DetailView, CreateView, UpdateView
 from django.http import HttpResponse
 from django.template import loader
+from django.urls import reverse_lazy
 
 from .models import Profile, Location, Event
 from .forms import LocationForm, EventForm
@@ -38,8 +39,8 @@ class LocationDetailView(DetailView):
     context_object_name = "location"
 
     def get_context_data(self, **kwargs):
-        context["page_title"] = f"Место: {self.object.title}"
         context = super().get_context_data(**kwargs)
+        context["page_title"] = f"Место: {self.object.title}"
         return context
 
 
@@ -58,6 +59,9 @@ class LocationCreateView(CreateView):
         context["submit_text"] = "Создать место"
         return context
 
+    def get_success_url(self):
+        return reverse_lazy('location', kwargs={'pk': self.object.pk})
+
 
 class LocationUpdateView(UpdateView):
     model = Location
@@ -74,6 +78,9 @@ class LocationUpdateView(UpdateView):
     def get_queryset(self):
         return super().get_queryset()
 
+    def get_success_url(self):
+        return reverse_lazy('location', kwargs={'pk': self.object.pk})
+
 
 class EventDetailView(DetailView):
     model = Event
@@ -81,8 +88,8 @@ class EventDetailView(DetailView):
     context_object_name = "event"
 
     def get_context_data(self, **kwargs):
-        context["page_title"] = f"Поездка: {self.object.title}"
         context = super().get_context_data(**kwargs)
+        context["page_title"] = f"Поездка: {self.object.title}"
         return context
 
 
@@ -101,6 +108,9 @@ class EventCreateView(CreateView):
         context["submit_text"] = "Создать поездку"
         return context
 
+    def get_success_url(self):
+        return reverse_lazy('event', kwargs={'pk': self.object.pk})
+
 
 class EventUpdateView(UpdateView):
     model = Event
@@ -116,3 +126,6 @@ class EventUpdateView(UpdateView):
 
     def get_queryset(self):
         return super().get_queryset()
+
+    def get_success_url(self):
+        return reverse_lazy('event', kwargs={'pk': self.object.pk})
