@@ -7,9 +7,23 @@
 {% if location %}
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Название: {{ location.title }}</h1>
-            <h3 class="display-5">id: {{ location.id }}</h3>
+            <h1 class="display-5 fw-bold">{{ location.title }}</h1>
+            <h3 class="display-5">Info url: {{ location.url }}</h3>
         </div>
+        <ul class="list-group">
+        {% for event in location.events.all %}
+            <li  class="list-group-item">
+                <div class="row">
+                    <p class="col-9">{{ event.title }} : {{ event.description }}</p>
+                    <a class="btn btn-primary btn-lg col-3" href="{% url 'event' event.id %}" role="button">
+                        Посмотреть
+                    </a>
+                </div>
+            </li>
+        {% empty %}
+            <li  class="list-group-item">Нет книг</li>
+        {% endfor %}
+        </ul>
     </div>
 {% else %}
     <div class="p-5 mb-4 bg-light rounded-3">

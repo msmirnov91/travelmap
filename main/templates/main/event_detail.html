@@ -7,8 +7,9 @@
 {% if event %}
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Название: {{ event.title }}</h1>
-            <h3 class="display-5">id: {{ event.id }}</h3>
+            <h1 class="display-5 fw-bold">{{ event.title }}</h1>
+            <h3 class="display-5">Дата: {{ event.date }}</h3>
+            <h3 class="display-5">{{ event.description }}</h3>
         </div>
     </div>
 {% else %}

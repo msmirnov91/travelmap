@@ -39,7 +39,11 @@ class Event(models.Model):
     title = models.CharField("event title", max_length=50)
     description = models.CharField("event description", max_length=250)
     date = models.DateTimeField("event date")
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        Location,
+        on_delete=models.CASCADE,
+        related_name='events',
+    )
     # TODO: add participants, photos and videos, created_at, updated_at
 
     def __str__(self):
