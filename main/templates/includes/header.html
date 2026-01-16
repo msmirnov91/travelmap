@@ -11,26 +11,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}">Главная</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'location-create' %}">Добавить место</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'event-create' %}">Добавить событие</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">О проекте</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         Разделы
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Раздел 1</a></li>
-                        <li><a class="dropdown-item" href="#">Раздел 2</a></li>
+                        <li><a class="dropdown-item" href="{% url 'about' %}">О проекте</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Раздел 3</a></li>
+                        <li><a class="dropdown-item" href="#">Пустой раздел</a></li>
                     </ul>
                 </li>
             </ul>
