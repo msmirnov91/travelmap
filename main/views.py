@@ -60,7 +60,7 @@ class LocationCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('location', kwargs={'pk': self.object.pk})
+        return reverse_lazy("location", kwargs={"pk": self.object.pk})
 
 
 class LocationUpdateView(UpdateView):
@@ -79,7 +79,7 @@ class LocationUpdateView(UpdateView):
         return super().get_queryset()
 
     def get_success_url(self):
-        return reverse_lazy('location', kwargs={'pk': self.object.pk})
+        return reverse_lazy("location", kwargs={"pk": self.object.pk})
 
 
 class EventDetailView(DetailView):
@@ -109,7 +109,7 @@ class EventCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('event', kwargs={'pk': self.object.pk})
+        return reverse_lazy("event", kwargs={"pk": self.object.pk})
 
 
 class EventUpdateView(UpdateView):
@@ -128,4 +128,4 @@ class EventUpdateView(UpdateView):
         return super().get_queryset()
 
     def get_success_url(self):
-        return reverse_lazy('event', kwargs={'pk': self.object.pk})
+        return reverse_lazy("event", kwargs={"pk": self.object.pk})

@@ -7,7 +7,7 @@ from django.urls import reverse
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
 
 
 @receiver(post_save, sender=User)
@@ -28,8 +28,11 @@ class Location(models.Model):
     lon = models.FloatField("longitude")
     # TODO: add created_at, updated_at
 
+    def __str__(self):
+        return f"{self.title}"
+
     def get_absolute_url(self):
-        return reverse('location', kwargs={'pk': self.pk})
+        return reverse("location", kwargs={"pk": self.pk})
 
 
 class Event(models.Model):
@@ -39,5 +42,8 @@ class Event(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     # TODO: add participants, photos and videos, created_at, updated_at
 
+    def __str__(self):
+        return f"{self.title}"
+
     def get_absolute_url(self):
-        return reverse('event', kwargs={'pk': self.pk})
+        return reverse("event", kwargs={"pk": self.pk})

@@ -39,7 +39,7 @@ class LocationForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ["title", "description", "date"]
+        fields = ["title", "description", "date", "location"]
         widgets = {
             "title": forms.TextInput(attrs={
                 "class": "form-control",
@@ -51,12 +51,17 @@ class EventForm(forms.ModelForm):
                 "placeholder": "Введите описание"
             }),
             "date": forms.DateTimeInput(attrs={
-                'type': 'datetime-local',
-                'class': 'form-control'
+                "type": "datetime-local",
+                "class": "form-control"
+            }),
+            "location": forms.Select(attrs={
+                "class": "form-select",
+                "placeholder": "Выберите место"
             }),
         }
         labels = {
             "title": "Название поездки",
             "description": "Описание поездки",
             "date": "Дата",
+            "location": "Место",
         }
