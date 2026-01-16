@@ -20,7 +20,14 @@
         {% if events %}
             <ul class="list-group">
             {% for event in events %}
-                <li class="list-group-item">{{ event.title }} : {{ event.description }}</li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <p class="col-9">{{ event.title }} : {{ event.description }}</p>
+                        <a class="btn btn-primary btn-lg col-3" href="{% url 'event' event.id %}" role="button">
+                            Посмотреть
+                        </a>
+                    </div>
+                </li>
             {% endfor %}
             </ul>
         {% else %}
@@ -33,7 +40,14 @@
         {% if locations %}
             <ul class="list-group">
             {% for location in locations %}
-                <li class="list-group-item">{{ location.title }} : {{ location.url }}</li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <p class="col-9">{{ location.title }} : {{ location.url }}</p>
+                        <a class="btn btn-primary btn-lg col-3" href="{% url 'location' location.id %}" role="button">
+                            Посмотреть
+                        </a>
+                    </div>
+                </li>
             {% endfor %}
             </ul>
         {% else %}
