@@ -1,0 +1,115 @@
+[tool.pylint]
+output-format = "colorized"
+
+confidence = ""
+
+ignore-paths = [
+    "^.*/migrations/.*$",
+    "^.*/tests/.*$",
+    "^.*/\\.venv/.*$",
+    "^.*/venv/.*$",
+    "^.*/__pycache__/.*$",
+    "^.*\\.pyc$"
+]
+
+load-plugins = "pylint_django"
+
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "no-self-use",
+    "invalid-name",
+    "too-few-public-methods",
+    "import-error",
+    "no-name-in-module",
+    "unsubscriptable-object",
+    "unsupported-membership-test",
+    "unused-argument",
+    "arguments-differ",
+    "too-many-ancestors",
+    "no-member",
+    "import-outside-toplevel",
+    "consider-using-f-string",
+    "line-too-long"
+]
+
+max-line-length = 88
+
+django-settings-module = "travelmap.settings"
+
+good-names = [
+    "qs",
+    "id",
+    "pk",
+    "url",
+    "ex",
+    "req",
+    "res",
+    "i",
+    "j",
+    "k",
+    "v",
+    "x",
+    "y",
+    "z",
+    "e",
+    "fp",
+    "obj",
+    "settings"
+]
+
+[tool.pylint.MASTER]
+ignore = ["migrations", ".venv", "venv", "env", ".env"]
+init-hook = """
+import sys
+try:
+    import django
+    from django.conf import settings
+
+    if not settings.configured:
+        import os
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'travelmap.settings')
+        django.setup()
+except ImportError:
+    pass
+except Exception as e:
+    sys.stderr.write(f"Django setup warning: {e}\\n")
+"""
+
+[tool.pylint.'MESSAGES CONTROL']
+disable = [
+    "C0114",  # missing-module-docstring
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "R0903",  # too-few-public-methods
+    "R0801",  # duplicate-code
+    "W0613",  # unused-argument
+    "W0221",  # arguments-differ
+    "C0103",  # invalid-name
+]
+
+[tool.pylint.BASIC]
+good-names = [
+    "id",
+    "pk",
+    "qs",
+    "url",
+    "ex",
+    "req",
+    "res",
+    "i",
+    "j",
+    "k",
+    "v",
+    "x",
+    "y",
+    "z",
+    "e",
+    "fp",
+    "obj",
+    "settings"
+]
+
+[tool.pylint.FORMAT]
+max-line-length = 88
