@@ -1,3 +1,7 @@
+from io import BytesIO
+import os
+
+from django.core.files.base import ContentFile
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
 from django.contrib.gis.db import models as gis_models
@@ -5,12 +9,8 @@ from django.db.models.signals import post_save
 from django.db import models
 from django.dispatch import receiver
 from django.urls import reverse
-from django.utils import timezone
 
 from PIL import Image as PilImage
-from io import BytesIO
-from django.core.files.base import ContentFile
-import os
 
 
 class Profile(models.Model):
@@ -266,4 +266,3 @@ class MediaGallery(models.Model):
         all_media.extend(self.images.all())
         all_media.extend(self.videos.all())
         return sorted(all_media, key=lambda x: x.title, reverse=True)
-

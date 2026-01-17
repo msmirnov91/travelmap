@@ -21,9 +21,9 @@ def index(request):
 
 
 def profile(request, profile_id):
-    profile = Profile.objects.filter(id=profile_id).first()
+    user_profile = Profile.objects.filter(id=profile_id).first()
     template = loader.get_template("main/profile.html")
-    context = {"profile": profile}
+    context = {"profile": user_profile}
     return HttpResponse(template.render(context, request))
 
 
@@ -50,9 +50,6 @@ class LocationCreateView(CreateView):
     template_name = "main/location_form.html"
     success_message = "Место успешно создано!"
 
-    def form_valid(self, form):
-        return super().form_valid(form)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Создание нового места"
@@ -75,9 +72,6 @@ class LocationUpdateView(UpdateView):
         context["submit_text"] = "Сохранить изменения"
         return context
 
-    def get_queryset(self):
-        return super().get_queryset()
-
     def get_success_url(self):
         return reverse_lazy("location", kwargs={"pk": self.object.pk})
 
@@ -98,9 +92,6 @@ class EventCreateView(CreateView):
     form_class = EventForm
     template_name = "main/event_form.html"
     success_message = "Поездка успешно создана!"
-
-    def form_valid(self, form):
-        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -123,9 +114,6 @@ class EventUpdateView(UpdateView):
         context["page_title"] = f"Редактирование: {self.object.title}"
         context["submit_text"] = "Сохранить изменения"
         return context
-
-    def get_queryset(self):
-        return super().get_queryset()
 
     def get_success_url(self):
         return reverse_lazy("event", kwargs={"pk": self.object.pk})

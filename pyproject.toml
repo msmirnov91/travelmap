@@ -18,7 +18,6 @@ disable = [
     "missing-module-docstring",
     "missing-class-docstring",
     "missing-function-docstring",
-    "no-self-use",
     "invalid-name",
     "too-few-public-methods",
     "import-error",
