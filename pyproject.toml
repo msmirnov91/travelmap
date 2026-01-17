@@ -178,7 +178,9 @@ dependencies = [
     "typing-extensions (==4.15.0)",
     "urllib3 (==2.6.3)",
     "virtualenv (==20.36.1)",
-    "zstandard (==0.25.0)"
+    "zstandard (==0.25.0)",
+    "gdal (==3.11.4)",
+    "psycopg2 (>=2.9.11,<3.0.0)"
 ]
 
 

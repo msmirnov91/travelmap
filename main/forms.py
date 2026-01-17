@@ -1,3 +1,4 @@
+from django.contrib.gis import forms as gis_forms
 from django import forms
 from .models import Location, Event
 
@@ -5,34 +6,26 @@ from .models import Location, Event
 class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
-        fields = ["title", "url", "lat", "lon"]
+        fields = ["title", "url", "coordinates"]
         widgets = {
             "title": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Введите название"
             }),
-            "url": forms.TextInput(attrs={
+            "url": forms.URLInput(attrs={
                 "class": "form-control",
                 "placeholder": "Введите ссылку"
             }),
-            "lat": forms.NumberInput(attrs={
-                "class": "form-control",
-                "step": "0.01",
-                "min": "0",
-                "placeholder": "0.00"
-            }),
-            "lon": forms.NumberInput(attrs={
-                "class": "form-control",
-                "step": "0.01",
-                "min": "0",
-                "placeholder": "0.00"
+            "coordinates": gis_forms.OSMWidget(attrs={
+                "default_lat": 55.7558,
+                "default_lon": 37.6173,
+                "default_zoom": 13,
             }),
         }
         labels = {
             "title": "Название места",
             "url": "Ссылка с информацией о месте",
-            "lat": "Широта",
-            "lon": "Долгота",
+            "coordinates": "Координаты",
         }
 
 
@@ -50,8 +43,8 @@ class EventForm(forms.ModelForm):
                 "rows": 5,
                 "placeholder": "Введите описание"
             }),
-            "date": forms.DateTimeInput(attrs={
-                "type": "datetime-local",
+            "date": forms.DateInput(attrs={
+                "type": "date",
                 "class": "form-control"
             }),
             "location": forms.Select(attrs={

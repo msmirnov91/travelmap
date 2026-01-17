@@ -2,6 +2,20 @@
 
 {% block title %}{{ page_title }} | Travelmap{% endblock %}
 
+{% block head %}
+
+{{ form.media }}
+
+<style>
+    /* Make map visible */
+    .dj_map {
+        width: 100% !important;
+        height: 400px !important;
+        display: block !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
@@ -13,15 +27,14 @@
                     {% if form.non_field_errors %}
                     <div class="alert alert-danger">
                         {% for error in form.non_field_errors %}
-                            {{ error }}
+                        {{ error }}
                         {% endfor %}
                     </div>
                     {% endif %}
 
                     {% for field in form %}
                     <div class="mb-3">
-                        <label for="{{ field.id_for_label }}"
-                               class="form-label">
+                        <label for="{{ field.id_for_label }}" class="form-label">
                             {{ field.label }}
                         </label>
                         {{ field }}
@@ -29,7 +42,7 @@
                         {% if field.errors %}
                         <div class="text-danger">
                             {% for error in field.errors %}
-                                {{ error }}
+                            {{ error }}
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -47,11 +60,9 @@
                             {{ submit_text }}
                         </button>
                         {% if object %}
-                            <a href="{% url 'location' object.pk %}"
-                               class="btn btn-secondary">Отмена</a>
+                        <a href="{% url 'location' object.pk %}" class="btn btn-secondary">Отмена</a>
                         {% else %}
-                            <a href="{% url 'index' %}"
-                               class="btn btn-secondary">Отмена</a>
+                        <a href="{% url 'index' %}" class="btn btn-secondary">Отмена</a>
                         {% endif %}
                     </div>
                 </form>

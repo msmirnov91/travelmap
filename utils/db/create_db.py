@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -52,7 +53,7 @@ def create_db(cursor, db_name):
 
 
 def configure_settings(cursor, db_user):
-    print(f"Configuring user settings...")
+    print("Configuring user settings...")
     query = sql.SQL("""
         ALTER ROLE {} SET client_encoding TO 'utf8';
         ALTER ROLE {} SET default_transaction_isolation TO 'read committed';
@@ -70,17 +71,19 @@ def grant_db_priviligies(cursor, db_name, db_user):
     )
 
 
-def create_and_setup(db_name, db_user, db_password,
-                     host, port,
-                     admin_user, admin_password):
+def create_db_and_user():
     conn = establish_connection(
-        host,
-        port,
-        admin_user,
-        admin_password,
+        host=get_from_env("DB_HOST"),
+        port=int(get_from_env("DB_PORT")),
+        admin_user=get_from_env("DB_ADMIN_USER"),
+        admin_password=get_from_env("DB_ADMIN_PASSWORD"),
         database='postgres'
     )
     cursor = conn.cursor()
+
+    db_name = get_from_env("DB_NAME")
+    db_user = get_from_env("DB_USER")
+    db_password = get_from_env("DB_PASSWORD")
 
     create_user(cursor, db_user, db_password)
     create_db(cursor, db_name)
@@ -91,59 +94,51 @@ def create_and_setup(db_name, db_user, db_password,
     conn.close()
 
 
-def grant_public_schema_access(db_name, db_user, host, port,
-                               admin_user, admin_password):
+def turn_on_postgis(cursor):
+    print("Turning on PostGIS...")
+    cursor.execute("""
+            SELECT extname, extversion FROM pg_extension WHERE extname = 'postgis';
+    """)
+    if cursor.fetchone():
+        print("PostGIS already turned on")
+    else:
+
+        query = """
+        CREATE EXTENSION postgis;
+        CREATE EXTENSION postgis_topology;
+        """
+        cursor.execute(query)
+        print("PostGIS turned on successfully")
+
+
+def configure_created_db():
     conn = establish_connection(
-        host,
-        port,
-        admin_user,
-        admin_password,
-        database=db_name
+        host=get_from_env("DB_HOST"),
+        port=int(get_from_env("DB_PORT")),
+        admin_user=get_from_env("DB_ADMIN_USER"),
+        admin_password=get_from_env("DB_ADMIN_PASSWORD"),
+        database=get_from_env("DB_NAME")
     )
     cursor = conn.cursor()
+
+    db_user = get_from_env("DB_USER")
 
     cursor.execute(
         sql.SQL("GRANT ALL ON SCHEMA public TO {}").format(
             sql.Identifier(db_user)
         )
     )
+    turn_on_postgis(cursor)
 
     cursor.close()
     conn.close()
-
-
-def create_and_setup_database():
-    host = get_from_env("DB_HOST")
-    port = int(get_from_env("DB_PORT"))
-
-    db_name = get_from_env("DB_NAME")
-
-    db_user = get_from_env("DB_USER")
-    db_password = get_from_env("DB_PASSWORD")
-
-    admin_user = get_from_env("DB_ADMIN_USER")
-    admin_password = get_from_env("DB_ADMIN_PASSWORD")
-
-    try:
-        create_and_setup(db_name, db_user, db_password,
-                         host, port,
-                         admin_user, admin_password)
-
-        grant_public_schema_access(db_name, db_user, host, port,
-                                   admin_user, admin_password)
-
-        print(f"Success! Database '{db_name}' and user '{db_user}' are ready.")
-
-    except psycopg2.Error as e:
-        print(f"Error occured: {e}")
-        exit(1)
 
 
 def get_from_env(key):
     value = os.getenv(key)
     if not value:
         print(f"No value found by key {key}")
-        exit(1)
+        sys.exit(1)
     return value
 
 
@@ -151,10 +146,16 @@ def main():
     load_env_vars()
 
     try:
-        create_and_setup_database()
-    except KeyboardInterrupt:
-        print("Operation cancelled by user")
-        exit(1)
+        create_db_and_user()
+        configure_created_db()
+
+        db_name = get_from_env("DB_NAME")
+        db_user = get_from_env("DB_USER")
+        print(f"Success! Database '{db_name}' and user '{db_user}' are ready.")
+
+    except psycopg2.Error as e:
+        print(f"Error occured: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
