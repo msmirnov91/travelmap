@@ -9,8 +9,8 @@ from .forms import LocationForm, EventForm
 
 def index(request):
     limit = 10
-    locations = Location.objects.all()[:limit]
-    events = Event.objects.all()[:limit]
+    locations = Location.objects.all().order_by('-updated')[:limit]
+    events = Event.objects.all().order_by('-updated')[:limit]
 
     template = loader.get_template("main/index.html")
     context = {
